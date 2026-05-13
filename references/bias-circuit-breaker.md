@@ -4,7 +4,7 @@
 
 ---
 
-## Die 4 Biases
+## Die Biases
 
 | Bias | Was es ist | Symptom im Output |
 |------|-----------|-------------------|
@@ -12,6 +12,7 @@
 | **Optimism** | Inside View zu optimistisch. "Diesmal ist es anders." | "In 2 Wochen fertig" — Base Rate sagt 5 Wochen. |
 | **Availability** | Letztes Projekt/Erlebnis dominiert Einschätzung. | "Das ging letztes Mal auch gut" (N=1, Survivorship Bias). |
 | **Anchoring** | Erste Zahl/Ziel dominiert, unzureichende Adjustierung. | "Wir haben 10k Budget gesagt, also..." — nie hinterfragt. |
+| **Scope Creep** (Bonus) | Keine Grenzen definiert. Das Projekt wächst unkontrolliert. | "Ich baue schnell ein Auth-Modul" — 6 Wochen später ist es ein Identity-Platform. |
 
 ---
 
@@ -89,6 +90,25 @@ Outside: Base Rate = 64% der Refactorings überschreiten um 50%+. 2 Wochen → m
 **Wenn Anchoring getriggert:** 
 > ⚠️ **Anchoring bias detected.** Initial estimate [X] appears unvalidated. Re-anchoring with reference class data: [Y].
 
+### CB-5: Scope Creep Check (Bonus)
+
+**Frage:** Ist der Plan so abgegrenzt, dass er NICHT wächst?
+
+**Test:**
+- Wurde definiert, was NICHT Teil dieses Projekts ist?
+- Gibt es eine klare "Done"-Definition?
+- Sind Out-of-Scope-Items explizit dokumentiert?
+
+```
+"Ich baue schnell ein neues Auth-Modul."
+→ Was genau ist "Auth-Modul"? Login + Register? Password Reset?
+→ OAuth? MFA? Session-Management? Role-Based Access?
+→ Was ist NICHT Teil davon?
+```
+
+**Wenn Scope Creep vermutet:**
+> ⚠️ **Scope creep risk.** Plan defines WHAT but not WHAT NOT. Ambiguous scope boundaries → 2-3x timeline risk.
+
 ---
 
 ## Output-Format im Premortem
@@ -101,6 +121,7 @@ Outside: Base Rate = 64% der Refactorings überschreiten um 50%+. 2 Wochen → m
 | Optimism | ✅ | 2w → 3-4w (Base Rate) |
 | Availability | ❌ | — |
 | Anchoring | ✅ | 5k → 15-25k tokens (ref class) |
+| Scope Creep | ✅ | WHAT NOT definiert |
 ```
 
 Nur getriggerte Biases zeigen. Nicht getriggerte = eine Zeile (spart Output).
@@ -113,4 +134,5 @@ Nur getriggerte Biases zeigen. Nicht getriggerte = eine Zeile (spart Output).
 2. **Jeder Bias wird separat geprüft.** Kein "ja passt schon"-Zusammenfassen.
 3. **Korrektur überschreibt nicht die Original-Analyse.** Der User sieht beides.
 4. **Wenn ein Bias getriggert wird, MUSS die Analyse korrigiert werden.** Kein "notiert, aber ignoriert."
-5. **Nicht getriggerte Biases = eine Zeile.** Halte den Output kompakt.
+5. **Scope Creep ist Bonus — checke ihn nur bei Plans ohne klare Grenzen.**
+6. **Nicht getriggerte Biases = eine Zeile.** Halte den Output kompakt.

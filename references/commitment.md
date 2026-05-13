@@ -84,3 +84,20 @@ Wenn ein Failure Mode L×I ≥ 15 (🔴):
 Wenn der User das Commitment ablehnt:
 - Dokumentieren: "User lehnt Mitigation für 🔴-Risiko ab. Entscheidung bewusst getroffen."
 - Nicht diskutieren. Der Premortem berät, entscheidet nicht.
+
+---
+
+## Follow-up: Was passiert nach dem Commitment?
+
+Ein Commitment ist kein Vertrag — es ist ein **Trigger für die nächste Session**.
+
+| Status | Bedeutung | Nächster Schritt |
+|--------|-----------|------------------|
+| ✅ Erledigt | Commitment umgesetzt | Failure Mode ist mitigiert. Weiter mit nächstem 🔴/🟠. |
+| ⏳ Verfallen | Datum überschritten, nichts passiert | Commitment ist ungültig. Neu bewerten: Ist der Failure Mode noch real? |
+| 🔄 Verschoben | Neues Datum gesetzt | Akzeptabel — aber max 1x verschieben. Beim 2. Mal = ❌ Verfallen. |
+| ❌ Abgelehnt | User lehnt Mitigation ab | Dokumentieren. Kein Diskutieren. Der Preis wird später gezahlt. |
+
+**Wenn ein Commitment verfällt:** Der Failure Mode wird NICHT automatisch gestrichen. Er bleibt auf der Risikoliste. Der Premortem-Frame war: "Stell dir vor, es ist 6 Monate später und gescheitert." Ein verfallenes Commitment ist Teil dieser Geschichte.
+
+**Empfehlung:** Füge das Commitment als Task/Todo im aktuellen Project Management Tool hinzu. Wenn du in Claude Code arbeitest: `//todo "Integration-Tests schreiben"` als Reminder.

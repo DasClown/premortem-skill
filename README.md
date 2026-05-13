@@ -1,87 +1,178 @@
-# premortem-skill 🔪
+# 🔪 premortem-skill
 
 **Kill bad plans before they kill you.**
 
-The first Premortem skill that combines ALL 4 core features:
-1. **Base Rates** — Real failure statistics, not just "think about base rates"
-2. **Bias Circuit-Breaker** — Systematic checks for Sycophancy, Optimism, Availability, Anchoring
-3. **L/I Scoring** — Quantitative Likelihood × Impact scoring (1-5)
-4. **Commitment Mechanism** — Concrete action with a date, not just "consider X"
+> *Denk dir Dinge zuende. Sei kritisch mit dir selbst.*
 
-## Why
+Der **erste** Premortem-Skill, der **alle 4 Kern-Features** vereint — optimiert für Claude Code während der Arbeit.
 
-No existing Premortem implementation has all 4 features (audited 10+ repos, May 2026). The best have 2/4. This skill combines everything into one low-friction invocation.
+---
 
-## Install (30 seconds)
+## Was macht das hier anders?
+
+**Audit (Mai 2026):** 10+ Repos auf GitHub, HuggingFace, GitLab und npm geprüft. Kein einziges hatte mehr als **2 von 4** Features. Die Beweise stehen im [FINAL_AUDIT.md](https://github.com/DasClown/premortem-skill/blob/main/AUDIT.md).
+
+| Repo | Base Rates | Bias CB | L/I Score | Commitment |
+|------|:----------:|:--------:|:---------:|:----------:|
+| Hi1talib1World/Premortem ⭐51 | ❌ | ❌ | ❌ | ❌ |
+| AndyShaman/premortem ⭐16 | ❌ | ⚠️ | ❌ | ❌ |
+| MADEVAL/Pre-Mortem-Skill ⭐2 | ❌ | ❌ | ✅ | ✅ |
+| MrBinnacle/azimuth ⭐5 | ✅ | ⚠️ | ❌ | ❌ |
+| **→ premortem-skill** | **✅** | **✅** | **✅** | **✅** |
+
+---
+
+## Install (30 Sekunden)
 
 ```bash
-# Clone into your Claude Code skills directory
 mkdir -p ~/.claude/skills
 git clone https://github.com/DasClown/premortem-skill.git ~/.claude/skills/premortem
 ```
 
-Or install as a Claude Code plugin:
+Oder als Git-Submodul:
 ```bash
-claude plugins install DasClown/premortem-skill
+git submodule add https://github.com/DasClown/premortem-skill.git .claude/skills/premortem
 ```
+
+Kein Package-Manager, keine Dependencies, keine Config. Klonen → loslegen.
+
+---
 
 ## Usage
 
-### Quick Premortem — 30 seconds
-```
-!premortem
+### 🔸 Quick Premortem — 30 Sekunden
+```bash
 !pm
 ```
-Answers 3 questions for day-to-day decisions during coding.
+3 Fragen für den Alltag während des Codens. Kein Wizard, kein PDF, kein HTML.
 
-### Full Premortem — 2 minutes
-```
-!premortem full
+| Frage | Was es aufdeckt |
+|-------|----------------|
+| Most Likely Failure | Den Fehler, der garantiert passiert |
+| Worst-Case Failure | Den, der richtig weh tut (auch wenn unwahrscheinlich) |
+| Verify Now | Eine Sache, die du SOFORT checken kannst |
+
+### 🔸 Full Premortem — 2 Minuten
+```bash
 !pm full
 ```
-Runs all 4 features with quantitative scoring for high-stakes decisions.
+Alle 4 Features: Base Rates → Bias Check → L/I Matrix → Commitment.
 
-### Natural language triggers also work:
+### 🔸 Natural Language
 - "premortem this"
 - "kill this plan"
 - "stress test this approach"
 - "what could go wrong"
 
-## What it looks like
+---
 
-**Quick:**
+## Die 4 Features im Detail
+
+### 1. Base Rates 🎲
+Echte Failure-Statistiken aus Studien. Nicht "denk an Base Rates" — sondern konkrete Zahlen:
+
+| Entscheidungsklasse | Base Rate | Quelle |
+|---------------------|-----------|--------|
+| Software-Projekt überschreitet Timeline | **70%** | Standish CHAOS |
+| Refactoring braucht 2-3x Schätzung | **64%+** | IEEE |
+| Feature wird nie genutzt | **45%** | Microsoft Research |
+| Produkt-Launch scheitert | **70-95%** | Nielsen |
+| Startup überlebt 5 Jahre | **50%** | BLS |
+| Fehleinstellung (<18 Monate) | **40-50%** | HBR |
+
+### 2. Bias Circuit-Breaker 🛑
+
+| Bias | Check | Korrektur |
+|------|-------|-----------|
+| Sycophancy | "Würde ich das einem Fremden so hart sagen?" | Politeness-Filter raus |
+| Optimism | "Inside View vs. Outside View?" | Base Rate als Korrektur |
+| Availability | "Denke ich das nur, weil ich's letzte Woche gebaut habe?" | Evidenz verlangen |
+| Anchoring | "Woher kommt diese Zahl?" | Unabhängige Schätzung |
+| Scope Creep | "Was ist NICHT Teil dieses Plans?" | Done-Definition + Exclusions |
+
+### 3. L/I Scoring 📊
+
+Jeder Failure Mode kriegt **Likelihood (1-5) × Impact (1-5)**:
+
+| L×I | Zone | Aktion |
+|-----|------|--------|
+| 1-4 | 🟢 Grün | Akzeptieren |
+| 5-8 | 🟡 Gelb | Monitoring |
+| 9-12 | 🟠 Orange | Mitigation nötig |
+| 15-25 | 🔴 Rot | STOP. Plan ändern. |
+
+### 4. Commitment 🎯
+
+Kein "vielleicht", kein "consider", kein "in Zukunft". EIN konkreter Satz:
+
+> ✅ Integration-Tests für Payment-Flow schreiben bis **Donnerstag 18:00**
+> ❌ "Mehr testen"
+
+---
+
+## Beispiel: Quick Premortem
+
 ```
 🔪 PREMORTEM
 Plan: Refactoring auth module from JWT to session tokens
 
-1. Most Likely: Timeline undercounted (base rate: 64% of refactors exceed by 50%+)
-2. Worst-Case: Session invalidation breaks all active users during deploy
-3. Verify: Run integration tests against staging with real session data
+1. Most Likely → Timeline undercounted
+   Base Rate: 64% der Refactors überschreiten um 50%+
+   Realistische Schätzung: 3-4 Wochen statt 2
+
+2. Worst-Case → Session invalidation bricht alle aktiven User
+   Impact: Alle User müssen neu einloggen
+   Customer Support wird überschwemmt
+
+3. Verify NOW → Integration-Tests gegen Staging mit echten Session-Daten
+   → npm run test:session-migration
 ```
 
-**Full:** includes Risk Matrix (5-column L×I table), Bias Check, and Commitment.
+---
 
-## Philosophy
+## Was passiert, wenn du `!pm` sagst?
 
-> *Denk dir Dinge zuende. Sei kritisch mit dir selbst.*
+1. **Context Scan** — Aktuelle Konversation + git log + changed files
+2. **Plan identifizieren** — Automatisch oder eine kurze Rückfrage
+3. **Quick (30s)** → 3 Antworten, Output ~8 Zeilen
+4. **Full (2min)** → 4 Features, Output ~20 Zeilen
 
-The Premortem is not about pessimism — it's about honesty before reality forces it on you. 30 seconds now saves hours later.
+---
 
-Based on Kahneman's "single most valuable decision tool" (prospective hindsight), Gary Klein's Premortem method (HBR 2007), and Tetlock's Superforecasting principles.
+## Pro-Tipp
 
-## Structure
+**Gewohnheit aufbauen:** Vor jedem `git commit -m "refactor"` → `!pm`. Vor jedem `git push` mit Breaking Changes → `!pm full`. 30 Sekunden jetzt sparen Stunden später.
+
+*Der Premortem ist nicht zum Pessimismus da — sondern zur Ehrlichkeit, bevor die Realität sie von dir erzwingt.*
+
+---
+
+## Struktur
 
 ```
 premortem-skill/
-├── SKILL.md                          # Main skill (Claude Code compatible)
-├── README.md                         # This file
+├── SKILL.md                          # Main Skill (Claude Code)
+├── AUDIT.md                          # Vollständiger Markt-Audit (Mai 2026)
+├── README.md                         # Diese Datei
 ├── LICENSE                           # MIT
 └── references/
-    ├── base-rates.md                 # Real failure statistics
-    ├── bias-circuit-breaker.md       # 4-bias systematic check
-    ├── li-scoring.md                 # Likelihood × Impact methodology
-    └── commitment.md                 # From analysis to action
+    ├── base-rates.md                 # 25+ Failure-Statistiken + Worked Example
+    ├── bias-circuit-breaker.md       # 5 systematic checks (inkl. Scope Creep)
+    ├── li-scoring.md                 # Likelihood × Impact + Tie-Break-Regel
+    └── commitment.md                 # Action + Date + Follow-up-Logik
 ```
+
+---
+
+## Verwandt
+
+- [MrBinnacle/azimuth](https://github.com/MrBinnacle/azimuth) — Hat Base Rates + teilweise Bias (2/4)
+- [MADEVAL/Pre-Mortem-Skill](https://github.com/MADEVAL/Pre-Mortem-Skill) — Hat L/I + Commitment (2/4)
+- Kahneman, *Thinking, Fast and Slow*
+- Klein, *"Performing a Project Premortem"* (HBR 2007)
+- Tetlock, *Superforecasting*
+
+---
 
 ## License
 

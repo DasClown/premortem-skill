@@ -75,3 +75,20 @@ L  5     5   10   15   20   25
 3. **Kalibriere I mit worst case, nicht best case:** "Könnte schlimm sein" → 4, nicht 2.
 4. **Zwei 🔴 = STOP.** Bei zwei roten Einträgen: Plan grundlegend überdenken.
 5. **Kein Failure Mode mit L=5 und I=5 gleichzeitig.** Wenn beides maximal = unseriöse Analyse.
+
+### Tie-Break: Zwei Failure Modes mit gleichem L×I?
+
+| Situation | Tie-Break |
+|-----------|-----------|
+| Gleiches L×I, unterschiedliches L | **Höheres L gewinnt** — der wahrscheinlichere Failure wird zuerst behandelt |
+| Gleiches L×I, gleiches L | **Höheres I gewinnt** — der gefährlichere hat Vorrang |
+| Alles gleich | **Reversibilität:** Der schwerer umkehrbare zuerst |
+
+**Beispiel:**
+
+| Failure | L | I | L×I | Tie-Break |
+|---------|---|---|-----|-----------|
+| Projekt braucht 3x länger | 4 | 3 | 12 | 🔸 Höhere L (4 > 3) → #1 |
+| Datenverlust bei Migration | 3 | 4 | 12 | #2 |
+
+→ Zuerst das Timeline-Risiko adressieren (es passiert wahrscheinlicher), dann Datenverlust absichern.

@@ -68,6 +68,20 @@
 
 ---
 
+## Worked Example
+
+**Schätzung:** Ein Feature braucht "ca. 2 Wochen".
+
+1. **Referenzklasse:** Software-Projekt + Refactoring. Base Rate: 70% überschreiten Timeline, 64% brauchen 50%+ mehr Zeit.
+2. **Outside View:** 70 von 100 vergleichbaren Projekten werden nicht in 2 Wochen fertig.
+3. **Inside View prüfen:** "Diesmal ist es anders, weil... [Gründe]". Für jeden Grund: *Ist das ein echter Unterschied oder Optimism Bias?*
+4. **Angepasste Schätzung:** 2 Wochen × Base Rate 1.5x = **3 Wochen Minimum**.
+5. **Ergebnis:** Entweder Scope reduzieren oder Timeline anpassen. Nicht beides auf 2 Wochen quetschen.
+
+**Lerner:** *Eine Base Rate zu kennen ist nichts wert. Sie ANZUWENDEN ist alles.*
+
+---
+
 ## Quellen (kompakt)
 
 - Kahneman, D. (2011). *Thinking, Fast and Slow*. Farrar, Straus and Giroux.

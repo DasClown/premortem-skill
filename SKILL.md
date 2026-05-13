@@ -1,7 +1,7 @@
 ---
 name: premortem
 description: "Kill bad plans before they kill you. Quick premortem: '!premortem' or 'premortem this'. Full premortem: '!premortem full'. Auto-detects what you're working on. Integrates Base Rates, Bias Circuit-Breaker, L/I Scoring, Commitment — all 4 core features in one pass. Designed for Claude Code CLI: minimal friction, terminal-native output."
-version: 1.0.0
+version: 1.1.0
 author: DasClown
 license: MIT
 metadata:
@@ -24,13 +24,16 @@ metadata:
 
 ### Quick Premortem (`!premortem` / `!pm`) — 30 seconds
 
-For small-to-medium decisions during coding. Just 3 questions:
+For small-to-medium decisions during coding. 3 questions + quick L/I calibration.
 
-1. **What's the most likely way this fails?**
-2. **What's the worst-case failure?**
-3. **What's one thing you should verify right now?**
+1. **What's the most likely way this fails?** — Rate L (1-5) + I (1-5)
+2. **What's the worst-case failure?** — Even if unlikely, what's the damage?
+3. **What's one thing you should verify right now?** — Checkable in this session
 
-No ceremony. Just answer and move on.
+**Automatic L/I:** For the #1 failure, assign L × I and show the zone.
+`L=4 I=3 → 12 🟠 Needs mitigation`
+
+No ceremony. ~8 lines, 30 seconds.
 
 ### Full Premortem (`!premortem full` / `!pm full`) — 2-3 minutes
 
@@ -45,12 +48,20 @@ For high-stakes decisions: architecture choices, deploys, major refactors, featu
 
 ## Context Auto-Detection
 
-Before running, scan the current conversation for:
-- What the user is currently building/planning
-- Recent git commits or changed files (run `git log --oneline -5` and `git diff --stat HEAD~1` if in a repo)
-- Any architecture decisions, PR descriptions, or commit messages
+Before running, determine what the user is planning:
 
-**If context is unclear**, ask ONE question: "What specifically are you about to do?" Don't ask more than one.
+### Git Context (if in a repo)
+- `git log --oneline -3` → What's the current branch doing?
+- `git diff --stat HEAD~1` → How many files changed? What type of work?
+- `git branch --show-current` → Feature branch? Fix branch? Main?
+- **Keywords:** If commits mention "refactor", "migrate", "rewrite", "restructure" → auto-suggest `!pm`
+
+### Conversation Context
+- What was the user's last message? Are they describing a plan?
+- Any architecture decisions, config changes, or dependency additions?
+- Are they about to merge/deploy? High-risk?
+
+**If unclear after scanning**, ask ONE question: "Was genau planst du gerade?" Don't ask more than that.
 
 ---
 
@@ -65,16 +76,18 @@ Plan: [one-line summary of what you detected they're doing]
 
 #### 1. Most Likely Failure
 [specific, grounded in their actual context. Not generic.]
+L=? I=? → L×I=? [zone]
 
 #### 2. Worst-Case Failure
 [the one that would do real damage, even if less likely]
+L=? I=? → L×I=? [zone]
 
 #### 3. Verify Now
 [one concrete thing they can check right now, in this session]
 → [actual command or check they can run]
 ```
 
-That's it. Total output: ~8 lines. Keep moving.
+That's it. Total output: ~10 lines. Keep moving.
 
 ---
 
@@ -114,9 +127,15 @@ Run all 4 features in parallel (spawn sub-agents or run as structured analysis).
 
 ### Step 4: Base Rates Check
 
-Before each failure mode, check against real base rates. Source: `references/base-rates.md`. Example:
+For each failure mode, ask: "What class of decision is this, and what does the base rate say?"
 
-> **Base rate context:** 70% of software projects exceed initial time estimates by 50%+. 45% exceed budget by 100%+. Your "2-week estimate" → base rate says 3-4 weeks without explicit mitigation.
+Source: `references/base-rates.md`. Quick reference:
+- **Software project** → 70% timeline overshoot
+- **Refactoring** → 64% exceed 50%+ of estimate
+- **Product launch** → 70-95% failure rate
+- **Feature without user research** → 64% fail
+
+> Example: Your "2-week estimate" → base rate says 3-4 weeks minimum.
 
 ### Step 5: Bias Circuit-Breaker
 
@@ -190,6 +209,7 @@ Run AFTER generating failures (not before — don't filter yourself). Check for:
 - **Optimism:** Inside view vs. outside view. What would someone who's done this 10 times say?
 - **Availability:** Is this failure mode from the last thing I read/built, or is it genuinely relevant?
 - **Anchoring:** Did I start from an arbitrary number and insufficiently adjust?
+- **Scope Creep (Bonus):** Is the plan bounded? What's explicitly NOT included?
 
 See `references/bias-circuit-breaker.md` for detailed protocols.
 
@@ -241,9 +261,12 @@ See `references/commitment.md` for the commitment protocol.
 - **Sugarcoating:** The whole point is to hear what you DON'T want to hear.
 - **Too many questions:** Auto-detect context. Ask max ONE question if unclear.
 - **Analysis paralysis:** Quick mode exists for a reason. Don't full-premortem a CSS fix.
+- **No self-audit:** Du hast den Skill gebaut — also MUSST du ihn selbst benutzen. Jeder Commit, jeder Push.
 
 ---
 
 ## Pro-Tipp
 
-**Gewohnheit aufbauen:** Vor jedem `git commit -m "big refactor"` → `!pm`. Vor jedem `git push` mit Breaking Changes → `!pm full`. 30 Sekunden jetzt sparen Stunden später.
+**Gewohnheit aufbauen:** Vor jedem `git commit -m "refactor"` → `!pm`. Vor jedem `git push` mit Breaking Changes → `!pm full`. 30 Sekunden jetzt sparen Stunden später.
+
+> **Beispiel aus der Praxis:** "20 Tulpen — zack, Abfahrt." Der Plan: D2C Blumen-Dropshipping in 2 Wochen live. Premortem nach 5 Minuten: Kühlkette killt die Marge, VAT/EORI frisst den Gewinn, Reklamationen sind unkalkulierbar. Ergebnis: **Nicht bauen. 5 Minuten gespart vs. 6 Monate Learned.** Das ist der Wert.
