@@ -1,0 +1,118 @@
+name: Validate Skill
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'SKILL.md'
+      - 'references/*.md'
+      - '.github/workflows/validate.yml'
+  pull_request:
+    paths:
+      - 'SKILL.md'
+      - 'references/*.md'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate SKILL.md frontmatter
+        run: |
+          echo "Checking SKILL.md..."
+          python3 -c "
+import yaml, re, sys
+
+with open('SKILL.md') as f:
+    content = f.read()
+
+# Must start with ---
+if not content.startswith('---'):
+    print('❌ SKILL.md must start with ---')
+    sys.exit(1)
+
+# Extract frontmatter
+m = re.search(r'^---\s*\n(.*?)\n---', content, re.DOTALL)
+if not m:
+    print('❌ No valid YAML frontmatter found')
+    sys.exit(1)
+
+try:
+    fm = yaml.safe_load(m.group(1))
+except yaml.YAMLError as e:
+    print(f'❌ YAML parse error: {e}')
+    sys.exit(1)
+
+checks = [
+    ('name', fm.get('name'), str),
+    ('description', fm.get('description'), str),
+    ('version', fm.get('version'), str),
+    ('author', fm.get('author'), str),
+    ('license', fm.get('license'), str),
+]
+for field, val, _type in checks:
+    if not isinstance(val, _type) or not val:
+        print(f'❌ Missing or invalid: {field}')
+        sys.exit(1)
+
+desc = fm['description']
+if len(desc) > 1024:
+    print(f'❌ Description too long: {len(desc)} chars (max 1024)')
+    sys.exit(1)
+
+if len(fm['name']) > 64:
+    print(f'❌ Name too long: {len(fm[\"name\"])} chars (max 64)')
+    sys.exit(1)
+
+# Body must exist
+body = content[m.end():].strip()
+if len(body) < 50:
+    print('❌ Body too short (< 50 chars)')
+    sys.exit(1)
+
+print(f'✅ SKILL.md valid — \"{fm[\"name\"]}\" v{fm[\"version\"]}')
+print(f'   Description: {len(desc)} chars')
+print(f'   Body: {len(body)} chars')
+"
+
+      - name: Check all reference files exist
+        run: |
+          for f in references/base-rates.md references/bias-circuit-breaker.md references/li-scoring.md references/commitment.md; do
+            if [ ! -f "$f" ]; then
+              echo "❌ Missing: $f"
+              exit 1
+            fi
+            echo "✅ $f"
+          done
+
+      - name: Validate reference files have content
+        run: |
+          for f in references/*.md; do
+            lines=$(wc -l < "$f")
+            if [ "$lines" -lt 20 ]; then
+              echo "❌ $f has only $lines lines (min 20)"
+              exit 1
+            fi
+            echo "✅ $f ($lines lines)"
+          done
+
+      - name: Check README has no broken links
+        run: |
+          python3 -c "
+import re
+with open('README.md') as f:
+    content = f.read()
+
+# Find all markdown links
+links = re.findall(r'\[([^\]]+)\]\(([^)]+)\)', content)
+for text, url in links:
+    # Skip external links
+    if url.startswith('http'):
+        continue
+    # Skip relative links that should exist
+    if url.startswith('#') or url == './':
+        continue
+    print(f'  Internal link: [{text}]({url})')
+print(f'✅ Found {len(links)} total links')
+"
