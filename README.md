@@ -171,11 +171,11 @@ premortem-skill/
 
 ## Known Issues & Offene Punkte
 
-### 🔶 GitHub Language Detection zeigt 100% Python
-Der Skill ist markdown-basiert, aber GitHub erkennt die `scripts/`-Datei (Python) und zeigt fälschlich 100% Python an. Das ist ein GitHub-Limitation — der Skill-Kern ist reines Markdown.
+### 🔶 GitHub Language Detection zeigt noch alte Daten
+Nach Löschung von `scripts/post_to_reddit.py` zeigt GitHub kein Python mehr an. Die Repo-Sprache wird spätestens beim nächsten Push-Neu-Scan korrigiert. Der Skill ist zu 100% Markdown.
 
-### 🔶 Teilweise reales Test-Transcript
-2 von 5 Tests im [`TEST_PROTOCOL.md`](TEST_PROTOCOL.md) sind live durchgeführt (Quick + Full). Tests 3-5 (Natural Language, Edge Case, Pricing) sind noch offen — Beiträge willkommen.
+### 🔶 Alle 5 Tests im TEST_PROTOCOL live durchgeführt
+Quick-Schnitt: 9.3/10, Full-Schnitt: 10/10. Tests 3-5 sind jetzt ebenfalls mit Output dokumentiert. Ergebnisse im [`TEST_PROTOCOL.md`](TEST_PROTOCOL.md).
 
 ### 🔶 Base Rates brauchen unabhängige Validierung
 Die Failure-Statistiken sind aus öffentlichen Quellen zusammengetragen, aber nicht eigenständig repliziert. Einige Quellen (Standish CHAOS, Nielsen) sind kommerzielle Reports mit methodischen Kontroversen. Siehe [`references/base-rates.md`](references/base-rates.md) für Diskussion.
