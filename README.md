@@ -1,5 +1,12 @@
 # 🔪 premortem-skill
 
+[![Claude Code](https://img.shields.io/badge/Claude_Code-Skill-7C3AED?logo=anthropic&logoColor=white)](https://github.com/DasClown/premortem-skill)
+[![GitHub release](https://img.shields.io/github/v/release/DasClown/premortem-skill?logo=github&color=blue)](https://github.com/DasClown/premortem-skill/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+[![Test Protocol](https://img.shields.io/badge/tests-5_✓_9.6/10-brightgreen)](TEST_PROTOCOL.md)
+[![GitHub Discussions](https://img.shields.io/badge/💬_Discussions-ask_questions-blue)](https://github.com/DasClown/premortem-skill/discussions)
+[![Topics: claude-code premortem](https://img.shields.io/badge/topics-claude_code|premortem-lightgrey)](https://github.com/topics/claude-code)
+
 **Kill bad plans before they kill you.**
 
 > *Denk dir Dinge zuende. Sei kritisch mit dir selbst.*
