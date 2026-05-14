@@ -174,8 +174,8 @@ premortem-skill/
 ### 🔶 GitHub Language Detection zeigt 100% Python
 Der Skill ist markdown-basiert, aber GitHub erkennt die `scripts/`-Datei (Python) und zeigt fälschlich 100% Python an. Das ist ein GitHub-Limitation — der Skill-Kern ist reines Markdown.
 
-### 🔶 Kein reales Test-Transcript
-Bisher gibt es kein dokumentiertes Beispiel einer echten Claude-Code-Session mit `!pm`. Das [`TEST_PROTOCOL.md`](TEST_PROTOCOL.md) definiert 5 Szenarien — Test-Läufe sind als Contribution willkommen.
+### 🔶 Teilweise reales Test-Transcript
+2 von 5 Tests im [`TEST_PROTOCOL.md`](TEST_PROTOCOL.md) sind live durchgeführt (Quick + Full). Tests 3-5 (Natural Language, Edge Case, Pricing) sind noch offen — Beiträge willkommen.
 
 ### 🔶 Base Rates brauchen unabhängige Validierung
 Die Failure-Statistiken sind aus öffentlichen Quellen zusammengetragen, aber nicht eigenständig repliziert. Einige Quellen (Standish CHAOS, Nielsen) sind kommerzielle Reports mit methodischen Kontroversen. Siehe [`references/base-rates.md`](references/base-rates.md) für Diskussion.
