@@ -1,7 +1,7 @@
 ---
 name: premortem
 description: "Kill bad plans before they kill you. Quick premortem: '!premortem' or 'premortem this'. Full premortem: '!premortem full'. Auto-detects what you're working on. Integrates Base Rates, Bias Circuit-Breaker, L/I Scoring, Commitment — all 4 core features in one pass. Designed for Claude Code CLI: minimal friction, terminal-native output."
-version: 1.2.0
+version: 1.2.3
 author: DasClown
 license: MIT
 metadata:
@@ -33,7 +33,7 @@ For small-to-medium decisions during coding. 3 questions + quick L/I calibration
 **Automatic L/I:** For the #1 failure, assign L × I and show the zone.
 `L=4 I=3 → 12 🟠 Needs mitigation`
 
-No ceremony. ~8 lines, 30 seconds.
+No ceremony. ~12-16 lines, 30 seconds.
 
 ### Full Premortem (`!premortem full` / `!pm full`) — 2-3 minutes
 
@@ -87,7 +87,7 @@ L=? I=? → L×I=? [zone]
 → [actual command or check they can run]
 ```
 
-That's it. Total output: ~10 lines. Keep moving.
+That's it. Total output: ~12-16 lines. Keep moving.
 
 ---
 

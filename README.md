@@ -8,6 +8,20 @@ Der **vollständigste** Premortem-Skill, der **alle 4 Kern-Features** vereint �
 
 ---
 
+## Dritt-Test gesucht 🔍
+
+Alle 5 Tests im [`TEST_PROTOCOL.md`](TEST_PROTOCOL.md) wurden vom Autor selbst durchgeführt. Das ist methodisch begrenzt — ein Test von einer anderen Person wäre der nächste Qualitätssprung.
+
+**So hilfst du:**
+1. Installiere den Skill (`git clone ...`)
+2. Ruf `!pm` oder `!pm full` in Claude Code auf
+3. Kopiere den Output in [`TEST_PROTOCOL.md`](TEST_PROTOCOL.md) (als Test 6 oder in einen neuen PR)
+4. Mach einen Pull Request
+
+**Oder noch einfacher:** Schick mir den Output per Issue/DM. 5 Minuten Arbeit, fundamentaler Unterschied für die Glaubwürdigkeit.
+
+---
+
 ## Was macht das hier anders?
 
 **Audit (Mai 2026):** 10+ Repos auf GitHub, HuggingFace, GitLab und npm geprüft. Kein einziges hatte mehr als **2 von 4** Features. Die Analyse steht im [AUDIT.md](AUDIT.md).
@@ -171,8 +185,8 @@ premortem-skill/
 
 ## Known Issues & Offene Punkte
 
-### 🔶 GitHub Language Detection zeigt noch alte Daten
-Nach Löschung von `scripts/post_to_reddit.py` zeigt GitHub kein Python mehr an. Die Repo-Sprache wird spätestens beim nächsten Push-Neu-Scan korrigiert. Der Skill ist zu 100% Markdown.
+### 🔶 GitHub Language Detection braucht Neu-Scan
+Nach Löschung aller Nicht-Markdown-Dateien zeigt GitHub beim nächsten Push korrekt 100% Markdown an.
 
 ### 🔶 Alle 5 Tests im TEST_PROTOCOL live durchgeführt
 Quick-Schnitt: 9.3/10, Full-Schnitt: 10/10. Tests 3-5 sind jetzt ebenfalls mit Output dokumentiert. Ergebnisse im [`TEST_PROTOCOL.md`](TEST_PROTOCOL.md).

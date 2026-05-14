@@ -212,3 +212,84 @@ for text, url in links:
     print(f'  Internal link: [{text}]({url})')
 print(f'✅ Found {len(links)} total links')
 "
+
+      - name: Output schema validation — Quick Premortem spec
+        run: |
+          python3 -c "
+import re
+
+with open('SKILL.md') as f:
+    content = f.read()
+
+# Extract the Quick Premortem output format block
+quick_section = content.split('## Quick Premortem Flow')[1].split('---')[0] if '## Quick Premortem Flow' in content else ''
+
+checks = {
+    'Most Likely Failure header': bool(re.search(r'Most Likely Failure', quick_section)),
+    'Worst-Case Failure header': bool(re.search(r'Worst-Case Failure', quick_section)),
+    'Verify Now header': bool(re.search(r'Verify Now', quick_section)),
+    'L= template': 'L=?' in quick_section or bool(re.search(r'L=', quick_section)),
+    'I= template': 'I=?' in quick_section or bool(re.search(r'I=', quick_section)),
+    'L×I= template': 'L×I=?' in quick_section or bool(re.search(r'L×I=', quick_section)),
+    'Zone indicator': '[zone]' in quick_section or '🟢' in quick_section or '🔴' in quick_section,
+    '→ command prefix': '→' in quick_section,
+    'Plan: one-line': 'Plan:' in quick_section,
+}
+
+all_ok = True
+for check, result in checks.items():
+    status = '✅' if result else '❌'
+    if not result:
+        all_ok = False
+    print(f'{status} {check}')
+
+if not all_ok:
+    print()
+    print('❌ Quick Premortem output schema incomplete.')
+    print('   Expected: Most Likely Failure + Worst-Case Failure + Verify Now')
+    print('   Each with L=, I=, L×I=, Zone, and → command prefix.')
+    exit(1)
+else:
+    print()
+    print('✅ Quick Premortem output schema valid — all required elements present.')
+"
+
+      - name: Output schema validation — Full Premortem spec
+        run: |
+          python3 -c "
+import re
+
+with open('SKILL.md') as f:
+    content = f.read()
+
+# Extract the Full Premortem area
+full_section = content.split('## Full Premortem Flow')[1].split('## When')[0] if '## Full Premortem Flow' in content else ''
+
+checks = {
+    'Failure Modes header': bool(re.search(r'Failure Modes', full_section)),
+    'Risk Matrix / Risk Assessment': bool(re.search(r'Risk\s+(Matrix|Assessment)', full_section)),
+    'L column': 'L | I' in full_section or '| L | I' in full_section,
+    'L×I column': 'L×I' in full_section,
+    'Mitigation column': 'Mitigation' in full_section or 'Mitigation' in content,
+    'Bias Check header': bool(re.search(r'Bias\s+(Check|Circuit)', full_section)),
+    'Sycophancy in bias block': 'sycophancy' in full_section.lower() or 'Sycophancy check' in content,
+    'Optimism in bias block': 'optimism' in full_section.lower() or 'Optimism check' in content,
+    'Commitment header': bool(re.search(r'Commitment', full_section)),
+    'by [DATE] template': 'by [DATE]' in full_section or 'by [DATE]' in content,
+}
+
+all_ok = True
+for check, result in checks.items():
+    status = '✅' if result else '❌'
+    if not result:
+        all_ok = False
+    print(f'{status} {check}')
+
+if not all_ok:
+    print()
+    print('❌ Full Premortem output schema incomplete.')
+    exit(1)
+else:
+    print()
+    print('✅ Full Premortem output schema valid — all required elements present.')
+"
