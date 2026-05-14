@@ -97,6 +97,102 @@ print(f'   Body: {len(body)} chars')
             echo "✅ $f ($lines lines)"
           done
 
+      - name: Content quality — 4 Feature Presence Check
+        run: |
+          python3 -c "
+import sys
+
+with open('SKILL.md') as f:
+    content = f.read()
+
+# Define the 4 core features and their mandatory indicators
+features = {
+    'Base Rates': [
+        'base rate',
+        'failure statistics',
+        '70%',
+        'references/base-rates',
+    ],
+    'Bias Circuit-Breaker': [
+        'bias circuit-breaker',
+        'bias circuit',
+        'sycophancy',
+        'optimism',
+        'availability',
+        'anchoring',
+        'references/bias-circuit-breaker',
+    ],
+    'L/I Scoring': [
+        'L/I',
+        'likelihood',
+        'impact',
+        'L×I',
+        '1-5',
+        'references/li-scoring',
+    ],
+    'Commitment': [
+        'commitment',
+        'concrete action',
+        'by [DATE]',
+        'references/commitment',
+    ],
+}
+
+content_lower = content.lower()
+all_present = True
+
+for feature, indicators in features.items():
+    found = sum(1 for ind in indicators if ind.lower() in content_lower)
+    threshold = len(indicators) // 2  # at least half must match
+    status = '✅' if found >= threshold else '❌'
+    if found < threshold:
+        all_present = False
+    print(f'{status} {feature}: {found}/{len(indicators)} indicators found (threshold: {threshold})')
+
+if not all_present:
+    print('')
+    print('❌ SKILL.md does not reference all 4 core features in its body.')
+    print('   Each feature needs sufficient indicators (key terms, section headers, reference links).')
+    sys.exit(1)
+else:
+    print('')
+    print('✅ All 4 core features are present in SKILL.md body.')
+"
+
+      - name: Content quality — No generic failure modes (anti-pattern check)
+        run: |
+          python3 -c "
+with open('SKILL.md') as f:
+    content = f.read()
+
+anti_patterns = [
+    'Generic failures',
+    'Going through the motions',
+    'Sugarcoating',
+    'Too many questions',
+    'Analysis paralysis',
+]
+
+content_lower = content.lower()
+found = []
+missing = []
+for ap in anti_patterns:
+    if ap.lower() in content_lower:
+        found.append(ap)
+    else:
+        missing.append(ap)
+
+print(f'Anti-patterns documented: {len(found)}/{len(anti_patterns)}')
+for ap in found:
+    print(f'  ✅ {ap}')
+for ap in missing:
+    print(f'  ⚠️  {ap} (missing)')
+
+if len(found) < 3:
+    print('')
+    print('⚠️  Less than 3 anti-patterns documented — consider adding more.')
+"
+
       - name: Check README has no broken links
         run: |
           python3 -c "

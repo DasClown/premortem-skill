@@ -1,7 +1,7 @@
 ---
 name: premortem
 description: "Kill bad plans before they kill you. Quick premortem: '!premortem' or 'premortem this'. Full premortem: '!premortem full'. Auto-detects what you're working on. Integrates Base Rates, Bias Circuit-Breaker, L/I Scoring, Commitment — all 4 core features in one pass. Designed for Claude Code CLI: minimal friction, terminal-native output."
-version: 1.1.0
+version: 1.2.0
 author: DasClown
 license: MIT
 metadata:

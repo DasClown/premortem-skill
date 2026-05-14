@@ -3,10 +3,15 @@
 **Prüfdatum:** 13. Mai 2026
 **Geprüfte Plattformen:** GitHub, HuggingFace, GitLab, npm
 **Geprüfte Repos:** 10+
+**Audit-Typ:** Selbst-Audit (Einschätzung des Autors, nicht unabhängige Dritt-Prüfung)
 
-## Fazit: NEIN — Kein existierender Skill hat alle 4 Kern-Features.
+> **Disclaimer:** Dieser Audit wurde vom Autor des Repos selbst durchgeführt. Die Feature-Definitionen wurden vor der Prüfung festgelegt, was die Bewertung der Konkurrenz potenziell begünstigt. Z.B. hat MrBinnacle/azimuth ein Verdict-System (PROCEED/DELAY/REJECT), das funktional einem Commitment ähnelt — je nach Definition "zählt" das oder nicht. Die Darstellung ist als **begründete Selbsteinschätzung**, nicht als objektive Marktanalyse zu verstehen.
 
-Der nächstgelegene Kandidat hat max 2/4. Dieses Repo ist der **erste** Skill, der alle 4 vereint.
+---
+
+## Fazit
+
+Kein existierender Skill hat nach unserer Definition alle 4 Kern-Features. Der nächstgelegene Kandidat hat max 2/4. Dieses Repo ist nach unserem Kenntnisstand der **vollständigste** Skill, der alle 4 vereint.
 
 ---
 
@@ -28,7 +33,7 @@ Der nächstgelegene Kandidat hat max 2/4. Dieses Repo ist der **erste** Skill, d
 | Hi1talib1World/Premortem ⭐51 | ❌ | ❌ | ❌ | ❌ |
 | AndyShaman/premortem ⭐16 | ❌ | ⚠️ | ❌ | ❌ |
 | MADEVAL/Pre-Mortem-Skill ⭐2 | ❌ | ❌ | ✅ | ✅ |
-| MrBinnacle/azimuth ⭐5 | ✅ | ⚠️ | ❌ | ❌ |
+| MrBinnacle/azimuth ⭐5 | ✅ | ⚠️ | ❌ | ⚠️ (Verdict-System, kein Commitment mit Datum) |
 | b1rdmania/claude-premortem-skill ⭐1 | ❌ | ❌ | ❌ | ❌ |
 | gokulrajaram/premortem ⭐0 | ❌ | ❌ | ❌ | ❌ |
 | atscub/know-your-limits ⭐0 | ❌ | ❌ | ⚠️ | ❌ |
@@ -63,7 +68,7 @@ Der nächstgelegene Kandidat hat max 2/4. Dieses Repo ist der **erste** Skill, d
 - **Base Rates:** ✅ references/base-rates.md: 200+ Zeilen mit echten Statistiken aus Studien.
 - **Bias CB:** ⚠️ Circuit-Breaker für Sycophancy (Module 2), Availability (Module 6), Verdict softening (Module 10). Aber: KEIN Optimism, KEIN Anchoring. Über Module verteilt, kein zentraler CB.
 - **L/I Scoring:** ❌ Evidence Classification (strong/partial/unsupported) + Severity. Kein quantitatives L×I.
-- **Commitment:** ❌ Produziert Verdicts (PROCEED, DELAY, REJECT). Kein Commitment-Schritt mit Datum.
+- **Commitment:** ⚠️ Produziert Verdicts (PROCEED, DELAY, REJECT). Funktional ähnlich, aber kein expliziter Commitment-Schritt mit Datum — aus unserer Definition fällt es daher nicht unter "Commitment".
 - **Gesamt: 2/4**
 
 ### Kandidat E: b1rdmania/claude-premortem-skill ⭐1
@@ -77,4 +82,4 @@ Der nächstgelegene Kandidat hat max 2/4. Dieses Repo ist der **erste** Skill, d
 
 ## Quelle
 
-Umfassender Audit durchgeführt von DasClown am 13.05.2026. Jedes Repo wurde live geprüft (README, references/, SKILL.md, Prompt-Struktur). Einige Repos haben Teil-Features, keines hat alle 4.
+Umfassender Audit durchgeführt von DasClown am 13.05.2026. Jedes Repo wurde live geprüft (README, references/, SKILL.md, Prompt-Struktur). Einschränkung: Als **Selbst-Audit** besteht ein Interessenkonflikt — die Feature-Definitionen und Bewertungen spiegeln die Perspektive des Autors wider. Eine unabhängige Dritt-Prüfung wäre wünschenswert.

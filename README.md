@@ -4,20 +4,22 @@
 
 > *Denk dir Dinge zuende. Sei kritisch mit dir selbst.*
 
-Der **erste** Premortem-Skill, der **alle 4 Kern-Features** vereint — optimiert für Claude Code während der Arbeit.
+Der **vollständigste** Premortem-Skill, der **alle 4 Kern-Features** vereint — optimiert für Claude Code während der Arbeit.
 
 ---
 
 ## Was macht das hier anders?
 
-**Audit (Mai 2026):** 10+ Repos auf GitHub, HuggingFace, GitLab und npm geprüft. Kein einziges hatte mehr als **2 von 4** Features. Die Beweise stehen im [FINAL_AUDIT.md](https://github.com/DasClown/premortem-skill/blob/main/AUDIT.md).
+**Audit (Mai 2026):** 10+ Repos auf GitHub, HuggingFace, GitLab und npm geprüft. Kein einziges hatte mehr als **2 von 4** Features. Die Analyse steht im [AUDIT.md](AUDIT.md).
+
+> **Anmerkung:** Der Audit ist eine **Selbsteinschätzung** des Autors, keine unabhängige Dritt-Prüfung. Die Feature-Definitionen wurden vor der Prüfung festgelegt, was die Bewertung potenziell begünstigt. Details und Einschränkungen stehen im [AUDIT.md](AUDIT.md).
 
 | Repo | Base Rates | Bias CB | L/I Score | Commitment |
 |------|:----------:|:--------:|:---------:|:----------:|
 | Hi1talib1World/Premortem ⭐51 | ❌ | ❌ | ❌ | ❌ |
 | AndyShaman/premortem ⭐16 | ❌ | ⚠️ | ❌ | ❌ |
 | MADEVAL/Pre-Mortem-Skill ⭐2 | ❌ | ❌ | ✅ | ✅ |
-| MrBinnacle/azimuth ⭐5 | ✅ | ⚠️ | ❌ | ❌ |
+| MrBinnacle/azimuth ⭐5 | ✅ | ⚠️ | ❌ | ⚠️ |
 | **→ premortem-skill** | **✅** | **✅** | **✅** | **✅** |
 
 ---
@@ -75,10 +77,12 @@ Echte Failure-Statistiken aus Studien. Nicht "denk an Base Rates" — sondern ko
 |---------------------|-----------|--------|
 | Software-Projekt überschreitet Timeline | **70%** | Standish CHAOS |
 | Refactoring braucht 2-3x Schätzung | **64%+** | IEEE |
-| Feature wird nie genutzt | **45%** | Microsoft Research |
+| Feature wird nie genutzt | **45%** | Standish / Microsoft Research |
 | Produkt-Launch scheitert | **70-95%** | Nielsen |
 | Startup überlebt 5 Jahre | **50%** | BLS |
-| Fehleinstellung (<18 Monate) | **40-50%** | HBR |
+| Fehleinstellung (<18 Monate) | **40-50%** | HBR / Leadership IQ |
+
+> **Hinweis:** Alle Base Rates sind mit Quellen belegt — siehe [`references/base-rates.md`](references/base-rates.md) für DOIs und konkrete Links. Einige Quellen sind kommerzielle Reports ohne DOI; die Grenzen sind dort dokumentiert.
 
 ### 2. Bias Circuit-Breaker 🛑
 
@@ -154,9 +158,10 @@ premortem-skill/
 ├── SKILL.md                          # Main Skill (Claude Code)
 ├── AUDIT.md                          # Vollständiger Markt-Audit (Mai 2026)
 ├── README.md                         # Diese Datei
+├── TEST_PROTOCOL.md                  # 5 dokumentierte Testszenarien
 ├── LICENSE                           # MIT
 └── references/
-    ├── base-rates.md                 # 25+ Failure-Statistiken + Worked Example
+    ├── base-rates.md                 # 25+ Failure-Statistiken + Worked Example + Quellen mit DOIs
     ├── bias-circuit-breaker.md       # 5 systematic checks (inkl. Scope Creep)
     ├── li-scoring.md                 # Likelihood × Impact + Tie-Break-Regel
     └── commitment.md                 # Action + Date + Follow-up-Logik
@@ -164,9 +169,25 @@ premortem-skill/
 
 ---
 
+## Known Issues & Offene Punkte
+
+### 🔶 GitHub Language Detection zeigt 100% Python
+Der Skill ist markdown-basiert, aber GitHub erkennt die `scripts/`-Datei (Python) und zeigt fälschlich 100% Python an. Das ist ein GitHub-Limitation — der Skill-Kern ist reines Markdown.
+
+### 🔶 Kein reales Test-Transcript
+Bisher gibt es kein dokumentiertes Beispiel einer echten Claude-Code-Session mit `!pm`. Das [`TEST_PROTOCOL.md`](TEST_PROTOCOL.md) definiert 5 Szenarien — Test-Läufe sind als Contribution willkommen.
+
+### 🔶 Base Rates brauchen unabhängige Validierung
+Die Failure-Statistiken sind aus öffentlichen Quellen zusammengetragen, aber nicht eigenständig repliziert. Einige Quellen (Standish CHAOS, Nielsen) sind kommerzielle Reports mit methodischen Kontroversen. Siehe [`references/base-rates.md`](references/base-rates.md) für Diskussion.
+
+### 🔶 Kein Evaluations-Framework für Skill-Qualität
+Wie oft liefert Claude bei `!pm` das dokumentierte Format? Ein automatischer Evaluator existiert in der GitHub Actions, prüft aber nur Frontmatter + Dateiexistenz, nicht Output-Qualität. Ein Prompt-Evaluator wäre wünschenswert.
+
+---
+
 ## Verwandt
 
-- [MrBinnacle/azimuth](https://github.com/MrBinnacle/azimuth) — Hat Base Rates + teilweise Bias (2/4)
+- [MrBinnacle/azimuth](https://github.com/MrBinnacle/azimuth) — Hat Base Rates + teilweise Bias (2/4). Hat ein interessantes Verdict-System (PROCEED/DELAY/REJECT).
 - [MADEVAL/Pre-Mortem-Skill](https://github.com/MADEVAL/Pre-Mortem-Skill) — Hat L/I + Commitment (2/4)
 - Kahneman, *Thinking, Fast and Slow*
 - Klein, *"Performing a Project Premortem"* (HBR 2007)
